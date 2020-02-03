@@ -11,7 +11,12 @@
 
 ## Inputs
 
-No input.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:-----:|
+| client\_id | n/a | `string` | n/a | yes |
+| client\_secret | n/a | `string` | n/a | yes |
+| subscription\_id | n/a | `string` | n/a | yes |
+| tenant\_id | n/a | `string` | n/a | yes |
 
 ## Outputs
 
