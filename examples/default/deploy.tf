@@ -41,6 +41,6 @@ resource "kubernetes_namespace" "this" {
 module "alertmanager-silences-exporter" {
   source = "../.."
 
-  namespace       = kubernetes_namespace.this.metadata.0.name
-  configuration   = file("${path.root}/templates/config.yml")
+  namespace     = kubernetes_namespace.this.metadata.0.name
+  configuration = file("${path.root}/templates/config.yml")
 }
