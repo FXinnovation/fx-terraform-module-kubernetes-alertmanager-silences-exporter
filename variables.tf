@@ -93,6 +93,11 @@ variable "enabled" {
   default     = true
 }
 
+variable "alertmanager_url" {
+  description = "URL of the Alertmanager instance to connect to."
+  type        = string
+}
+
 variable "configuration" {
   description = "Configuration to use for alertmanager-silences-exporter (must be a map)."
   default     = {}

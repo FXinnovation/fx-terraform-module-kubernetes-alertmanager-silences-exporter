@@ -60,6 +60,7 @@ resource "kubernetes_deployment" "this" {
         annotations = merge(
           {
             "configuration/hash" = sha256(var.configuration)
+            "secret/hash"        = sha256("${var.alertmanager_url}")
           },
           var.annotations,
           var.deployment_annotations
@@ -96,6 +97,16 @@ resource "kubernetes_deployment" "this" {
             name           = "http"
             container_port = 9666
             protocol       = "TCP"
+          }
+
+          env {
+            name = "ALERTMANAGER_URL"
+            value_from {
+              secret_key_ref {
+                name = element(concat(kubernetes_secret.this.*.metadata.0.name, list("")), 0)
+                key  = "alertmanager_url"
+              }
+            }
           }
 
           resources {
@@ -182,4 +193,35 @@ resource "kubernetes_config_map" "this" {
   data = {
     "config.yml" = var.configuration
   }
+}
+
+#####
+# Secret
+#####
+
+resource "kubernetes_secret" "this" {
+  count = var.enabled ? 1 : 0
+
+  metadata {
+    name      = var.secret_name
+    namespace = var.namespace
+    annotations = merge(
+      var.annotations,
+      var.secret_annotations
+    )
+    labels = merge(
+      {
+        "app.kubernetes.io/instance" = var.secret_name
+      },
+      local.labels,
+      var.labels,
+      var.secret_labels
+    )
+  }
+
+  data = {
+    alertmanager_url = var.alertmanager_url
+  }
+
+  type = "Opaque"
 }

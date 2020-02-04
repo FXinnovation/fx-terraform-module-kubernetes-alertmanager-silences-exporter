@@ -43,6 +43,6 @@ module "alertmanager-silences-exporter" {
 
   enabled   = false
   namespace = kubernetes_namespace.this.metadata.0.name
-
+  alertmanager_url = "example"
   configuration = ""
 }
