@@ -3,7 +3,7 @@
 #####
 
 locals {
-  application_version = "0.1.0"
+  application_version = "0.2.0"
   labels = {
     "app.kubernetes.io/name"       = "alertmanager-silences-exporter"
     "app.kubernetes.io/component"  = "exporter"
